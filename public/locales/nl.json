@@ -2559,6 +2559,8 @@
         "feedExportHint": "Iedereen die deze link kent, kan je zichtbare afspraken lezen. Deel hem alleen met je eigen apparaten.",
         "feedExportShowAssignees": "Toegewezen personen in de titel tonen",
         "feedExportShowAssigneesHint": "Voegt de toegewezen gezinsleden toe aan de titel van elke afspraak die deze feed exporteert, bijv. “Zwembadfeest (Mama, Papa)”. Werkt meteen voor bestaande abonnementen.",
+        "feedExportOnlyMine": "Alleen mijn afspraken",
+        "feedExportOnlyMineHint": "Het adres bevat alleen afspraken waaraan je bent toegewezen en afspraken zonder toewijzing. Wijzigt het adres: abonneer daarna opnieuw.",
         "feedExportSaved": "Opgeslagen",
         "inventoryFeedTitle": "Termijnen exporteren",
         "inventoryFeedDescription": "Abonneer je, alleen-lezen, op aankomende garantie-einddata en zelf aangemaakte termijnen (APK, onderhoud, ...) uit je inventaris in Apple Agenda, Google Agenda of Thunderbird.",

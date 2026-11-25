@@ -2523,6 +2523,8 @@
         "feedExportHint": "任何知道此連結的人都可以讀取你可見的日程。請只與你自己的裝置分享。",
         "feedExportShowAssignees": "在標題中顯示指派的人員",
         "feedExportShowAssigneesHint": "在此訂閱源匯出的每個事件標題中加入指派的家庭成員，例如「泳池派對（媽媽、爸爸）」。對現有訂閱立即生效。",
+        "feedExportOnlyMine": "僅限我的活動",
+        "feedExportOnlyMineHint": "此網址只包含指派給你的活動和未指派的活動。會變更網址：之後請重新訂閱。",
         "feedExportSaved": "已儲存",
         "inventoryFeedTitle": "匯出到期日",
         "inventoryFeedDescription": "以唯讀方式在 Apple 日曆、Google 日曆或 Thunderbird 中訂閱物品即將到期的保固日和你自己新增的追蹤日期（年檢、保養等）。",

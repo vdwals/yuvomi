@@ -8,6 +8,14 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 ## [Unreleased]
 
 ### Added
+- **The personal calendar feed can carry only your own events.** A switch "Only my events" next to
+  the feed address in Settings > Calendar adds `?scope=mine` to it: the feed then keeps the events
+  you are assigned to and the events without any assignee. A phone calendar (and a watch that
+  reads it) no longer shows the whole household, and an event for several people shows up for
+  each of them. The choice is part of the address, not a stored setting, so the same person can
+  subscribe to their own events on the phone and to everything on a tablet; subscribe again after
+  switching. A series occurrence handed to someone else drops out of your series, one handed to you
+  from someone else's series arrives as a single event. Refs #739.
 - **The installed app offers shortcuts on its icon.** A long press on the home screen icon (Android,
   desktop Chrome and Edge) opens "New event", "Shopping list", "New task" or "Calendar today"
   directly. The two "New" shortcuts open the page together with its create dialog, like the `n`

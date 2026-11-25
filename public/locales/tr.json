@@ -2523,6 +2523,8 @@
         "feedExportHint": "Bu bağlantıyı bilen herkes görünür etkinliklerinizi okuyabilir. Yalnızca kendi cihazlarınızla paylaşın.",
         "feedExportShowAssignees": "Atanan kişileri başlıkta göster",
         "feedExportShowAssigneesHint": "Atanan aile üyelerini bu akışın dışa aktardığı her etkinliğin başlığına ekler, ör. “Havuz partisi (Anne, Baba)”. Mevcut aboneliklerde hemen etkili olur.",
+        "feedExportOnlyMine": "Yalnızca etkinliklerim",
+        "feedExportOnlyMineHint": "Adres yalnızca size atanmış etkinlikleri ve kimseye atanmamış etkinlikleri içerir. Adresi değiştirir: ardından yeniden abone olun.",
         "feedExportSaved": "Kaydedildi",
         "inventoryFeedTitle": "Son tarihleri dışa aktar",
         "inventoryFeedDescription": "Envanterinizdeki yaklaşan garanti bitişlerine ve kendi eklediğiniz takip tarihlerine (muayene, servis, ...) Apple Takvim, Google Takvim veya Thunderbird üzerinden salt okunur abone olun.",

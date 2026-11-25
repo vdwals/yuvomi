@@ -2523,6 +2523,8 @@
         "feedExportHint": "Cualquiera que conozca este enlace podrá leer tus eventos visibles. Compártelo solo con tus propios dispositivos.",
         "feedExportShowAssignees": "Mostrar las personas asignadas en el título",
         "feedExportShowAssigneesHint": "Añade los miembros de la familia asignados al título de cada evento que exporta este feed, p. ej. «Fiesta en la piscina (Mamá, Papá)». Se aplica de inmediato a las suscripciones existentes.",
+        "feedExportOnlyMine": "Solo mis eventos",
+        "feedExportOnlyMineHint": "La dirección incluye solo los eventos que tienes asignados y los eventos sin asignar. Cambia la dirección: vuelve a suscribirte después.",
         "feedExportSaved": "Guardado",
         "inventoryFeedTitle": "Exportar vencimientos",
         "inventoryFeedDescription": "Suscríbete, en modo solo lectura, a los próximos fines de garantía y a las fechas que sigues tú mismo (ITV, revisión, ...) de tu inventario en Apple Calendar, Google Calendar o Thunderbird.",

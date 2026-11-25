@@ -2523,6 +2523,8 @@
         "feedExportHint": "Chiunque conosca questo link può leggere i tuoi eventi visibili. Condividilo solo con i tuoi dispositivi.",
         "feedExportShowAssignees": "Mostra le persone assegnate nel titolo",
         "feedExportShowAssigneesHint": "Aggiunge i membri della famiglia assegnati al titolo di ogni evento esportato da questo feed, ad es. «Festa in piscina (Mamma, Papà)». Ha effetto immediato sugli abbonamenti esistenti.",
+        "feedExportOnlyMine": "Solo i miei eventi",
+        "feedExportOnlyMineHint": "L'indirizzo contiene solo gli eventi a cui sei assegnato e quelli senza assegnazione. Cambia l'indirizzo: iscriviti di nuovo dopo.",
         "feedExportSaved": "Salvato",
         "inventoryFeedTitle": "Esporta le scadenze",
         "inventoryFeedDescription": "Iscriviti, in sola lettura, alle prossime scadenze di garanzia e alle date che segui tu stesso (revisione, tagliando, ...) del tuo inventario in Apple Calendar, Google Calendar o Thunderbird.",

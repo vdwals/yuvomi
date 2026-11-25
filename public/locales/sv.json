@@ -2523,6 +2523,8 @@
         "feedExportHint": "Den som känner till denna länk kan läsa dina synliga händelser. Dela den endast med dina egna enheter.",
         "feedExportShowAssignees": "Visa tilldelade personer i titeln",
         "feedExportShowAssigneesHint": "Lägger till de tilldelade familjemedlemmarna i titeln på varje händelse som detta flöde exporterar, t.ex. ”Poolfest (Mamma, Pappa)”. Får effekt direkt för befintliga prenumerationer.",
+        "feedExportOnlyMine": "Bara mina händelser",
+        "feedExportOnlyMineHint": "Adressen innehåller bara händelser du är tilldelad och händelser utan tilldelning. Ändrar adressen: prenumerera igen efteråt.",
         "feedExportSaved": "Sparat",
         "inventoryFeedTitle": "Exportera förfallodatum",
         "inventoryFeedDescription": "Prenumerera skrivskyddat på kommande garantislut och egna bevakade datum (besiktning, service, ...) från dina inventarier i Apple Kalender, Google Kalender eller Thunderbird.",

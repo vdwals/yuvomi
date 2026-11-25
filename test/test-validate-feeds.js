@@ -203,6 +203,33 @@ test('the documented answers of every feed: 200, 404, 429, 500, no 400', async (
   }
 });
 
+test('/feed/calendar?scope=mine: own and unassigned events only; any other scope is the full feed, never 400', async () => {
+  const someoneElse = insertUser();
+  const addEvent = (/** @type {string} */ title, /** @type {number[]} */ assignees) => {
+    const id = Number(db.prepare(`
+      INSERT INTO calendar_events (title, start_datetime, end_datetime, all_day, external_source, created_by)
+      VALUES (?, '2099-03-01T09:00', '2099-03-01T10:00', 0, 'local', ?) RETURNING id
+    `).get(title, owner).id);
+    for (const userId of assignees) db.prepare('INSERT INTO event_assignments (event_id, user_id) VALUES (?, ?)').run(id, userId);
+  };
+  addEvent('ScopeOwn', [owner]);
+  addEvent('ScopeForeign', [someoneElse]);
+  addEvent('ScopeUnassigned', []);
+  const path = `/feed/calendar/${TOKENS.calendar.valid}.ics`;
+
+  const mine = await call(FEEDS_BASE, `${path}?scope=mine`);
+  assertCalendar(mine, 'yuvomi.ics', 'scope=mine');
+  assert.ok(mine.text.includes('SUMMARY:ScopeOwn'), 'own event missing');
+  assert.ok(mine.text.includes('SUMMARY:ScopeUnassigned'), 'unassigned event missing');
+  assert.ok(!mine.text.includes('SUMMARY:ScopeForeign'), 'foreign event in scope=mine');
+
+  for (const query of ['', '?scope=all', '?scope=bogus', '?scope=mine&scope=mine', '?scope=']) {
+    const full = await call(FEEDS_BASE, `${path}${query}`);
+    assertCalendar(full, 'yuvomi.ics', `query "${query}"`);
+    assert.ok(full.text.includes('SUMMARY:ScopeForeign'), `query "${query}" must deliver the full feed`);
+  }
+});
+
 // --------------------------------------------------------------------------
 // 2. FEED 500
 // --------------------------------------------------------------------------

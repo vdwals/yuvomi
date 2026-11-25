@@ -174,10 +174,54 @@ function wasteFeedTypeRowsHtml(types, selectedIds) {
   })).join('');
 }
 
+// NUR MEINE TERMINE ist eine Option der ADRESSE (`?scope=mine`, siehe
+// buildFeed in server/services/ics-export.js), keine gespeicherte Einstellung:
+// dieselbe Person kann am Telefon nur ihre und am Tablet alle Termine
+// abonnieren. Der Schalter stellt um, welche Adresse hier steht, kopiert und
+// abonniert wird; die letzte Wahl merkt sich das Geraet.
+const SCOPE_MINE_KEY = 'yuvomi-calendar-feed-scope-mine';
+
+function readScopeMine() {
+  try { return localStorage.getItem(SCOPE_MINE_KEY) === '1'; } catch { return false; }
+}
+
+/** @param {boolean} on */
+function writeScopeMine(on) {
+  try {
+    if (on) localStorage.setItem(SCOPE_MINE_KEY, '1');
+    else localStorage.removeItem(SCOPE_MINE_KEY);
+  } catch { /* privates Fenster: die Wahl gilt dann nur bis zum Neuladen */ }
+}
+
+/**
+ * Die Adresse, die dieser Abschnitt zeigt: beim Kalender mit `scope=mine`,
+ * wenn der Schalter an ist.
+ *
+ * @param {string} part
+ * @param {string} url die Adresse aus der API
+ * @param {boolean} mine
+ * @returns {string}
+ */
+export function displayedFeedUrl(part, url, mine) {
+  if (part !== 'calendar' || !mine) return url;
+  const target = new URL(url);
+  target.searchParams.set('scope', 'mine');
+  return target.toString();
+}
+
+const webcalUrl = (/** @type {string} */ url) => url.replace(/^https?:\/\//i, 'webcal://');
+
 /** Was nur ein Feed kennt: Personen im Titel (Kalender), Arten (Entsorgung). */
 function extrasHtml(part, data, types) {
   if (part === 'calendar') {
     return `
+    ${settingSwitchRowHtml({
+      label: t('settings.feedExportOnlyMine'),
+      checked: readScopeMine(),
+      description: t('settings.feedExportOnlyMineHint'),
+      descriptionId: 'feed-scope-mine-hint',
+      attrs: { id: 'feed-scope-mine', 'aria-describedby': 'feed-scope-mine-hint' },
+    })}
     ${settingSwitchRowHtml({
       label: t('settings.feedExportShowAssignees'),
       checked: !!data.showAssignees,
@@ -209,6 +253,7 @@ function extrasHtml(part, data, types) {
 function renderFeed(host, part, feed, data, types) {
   const on = Boolean(data);
   const urlId = `${part}-feed-url`;
+  const url = on ? displayedFeedUrl(part, data.url, readScopeMine()) : '';
   host.replaceChildren();
   host.insertAdjacentHTML('beforeend', `
     <!-- EIN TRAEGER, ZEILEN STATT KARTE (R17, E9): abgeschaltet ist der Feed
@@ -228,11 +273,11 @@ function renderFeed(host, part, feed, data, types) {
           <label class="settings-setting-row__label" for="${urlId}">${feed.text.urlLabel()}</label>
         </div>
         <div class="settings-setting-row__control">
-          <input id="${urlId}" class="form-input" type="text" readonly value="${esc(data.url)}" aria-describedby="${urlId}-hint">
+          <input id="${urlId}" class="form-input" type="text" readonly value="${esc(url)}" aria-describedby="${urlId}-hint">
           <p class="form-hint" id="${urlId}-hint">${feed.text.hint()}</p>
           <div class="settings-form-actions">
             <button type="button" class="btn btn--secondary" data-feed-copy>${feed.text.copy()}</button>
-            <a class="btn btn--secondary" href="${esc(data.url.replace(/^https?:\/\//i, 'webcal://'))}">${feed.text.subscribe()}</a>
+            <a class="btn btn--secondary" data-feed-subscribe href="${esc(webcalUrl(url))}">${feed.text.subscribe()}</a>
             <button type="button" class="btn btn--secondary" data-feed-regen>${feed.text.regenerate()}</button>
           </div>
         </div>
@@ -294,7 +339,7 @@ async function loadFeed(host, part) {
     // gelogen. Das Feld steht markiert zum Kopieren von Hand (#2487).
     try {
       if (!navigator.clipboard?.writeText) throw new Error('clipboard unavailable');
-      await navigator.clipboard.writeText(data.url);
+      await navigator.clipboard.writeText(host.querySelector(`#${part}-feed-url`)?.value || data.url);
       showToast(feed.text.copied(), 'success');
     } catch {
       const field = host.querySelector(`#${part}-feed-url`);
@@ -311,6 +356,14 @@ async function loadFeed(host, part) {
     } catch (err) {
       showToast(errorSentence(err), 'danger');
     }
+  });
+  host.querySelector('#feed-scope-mine')?.addEventListener('change', (/** @type {Event} */ e) => {
+    const mine = /** @type {HTMLInputElement} */ (e.currentTarget).checked;
+    writeScopeMine(mine);
+    const url = displayedFeedUrl(part, data.url, mine);
+    const field = host.querySelector(`#${part}-feed-url`);
+    if (field) field.value = url;
+    host.querySelector('[data-feed-subscribe]')?.setAttribute('href', webcalUrl(url));
   });
   host.querySelector('#feed-show-assignees')?.addEventListener('change', async (e) => {
     const input = e.currentTarget;

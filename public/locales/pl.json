@@ -2795,6 +2795,8 @@
         "feedExportHint": "Każdy, kto zna ten link, może odczytać Twoje widoczne wydarzenia. Udostępniaj go tylko własnym urządzeniom.",
         "feedExportShowAssignees": "Pokaż przypisane osoby w tytule",
         "feedExportShowAssigneesHint": "Dodaje przypisanych członków rodziny do tytułu każdego wydarzenia eksportowanego przez ten kanał, np. „Impreza przy basenie (Mama, Tata)”. Działa od razu dla istniejących subskrypcji.",
+        "feedExportOnlyMine": "Tylko moje wydarzenia",
+        "feedExportOnlyMineHint": "Adres zawiera tylko wydarzenia przypisane do Ciebie i wydarzenia bez przypisania. Zmienia adres: następnie zasubskrybuj ponownie.",
         "feedExportSaved": "Zapisano",
         "inventoryFeedTitle": "Eksportuj terminy",
         "inventoryFeedDescription": "Subskrybuj tylko do odczytu zbliżające się końce gwarancji i własne śledzone terminy (przegląd, serwis, ...) ze swojego inwentarza w Kalendarzu Apple, Kalendarzu Google lub Thunderbirdzie.",
