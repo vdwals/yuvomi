@@ -815,7 +815,8 @@ test('kein Modul baut die RRULE-Zeile an der Normalisierung vorbei (#761)', () =
 // ?scope=mine: nur zugewiesene und unzugewiesene Termine
 // --------------------------------------------------------
 {
-  const d3 = openSchemaDb();
+  // 2.95.0 hat noch kein openSchemaDb(): die Faelle laufen in d2 mit eigenen Titeln.
+  const d3 = d2;
   const me = d3.prepare(`INSERT INTO users (username,display_name,password_hash,role) VALUES ('me','Ich','x','admin')`).run().lastInsertRowid;
   const other = d3.prepare(`INSERT INTO users (username,display_name,password_hash) VALUES ('other','Andere','x')`).run().lastInsertRowid;
   const addEvent = (title, start, extra = {}) => d3.prepare(`
