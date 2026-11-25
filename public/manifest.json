@@ -17,5 +17,11 @@
     { "src": "/icons/icon-maskable-192.png", "sizes": "192x192", "type": "image/png", "purpose": "maskable" },
     { "src": "/icons/icon-maskable-512.png", "sizes": "512x512", "type": "image/png", "purpose": "maskable" }
   ],
-  "screenshots": []
+  "screenshots": [],
+  "shortcuts": [
+    { "name": "Neuer Termin", "short_name": "Termin", "url": "/calendar?new" },
+    { "name": "Einkaufsliste", "short_name": "Einkauf", "url": "/shopping" },
+    { "name": "Neue Aufgabe", "short_name": "Aufgabe", "url": "/tasks?new" },
+    { "name": "Kalender heute", "short_name": "Heute", "url": "/calendar?date=today" }
+  ]
 }

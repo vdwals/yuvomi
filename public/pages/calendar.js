@@ -694,6 +694,10 @@ function openDeepLink(params) {
 
 function dayDeepLinkDate(params) {
   if (params.get('open')) return '';
+  // `?date=today`: der Shortcut „Kalender heute" (manifest.json) kann kein
+  // festes Datum tragen. Gemeint ist der Tag des Haushalts (state.today, von
+  // render() vor dem Lesen der Adresse gesetzt), nicht der des Geraets.
+  if (params.get('date') === 'today') return state.today;
   return validDateParam(params.get('date'));
 }
 

@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **The installed app offers shortcuts on its icon.** A long press on the home screen icon (Android,
+  desktop Chrome and Edge) opens "New event", "Shopping list", "New task" or "Calendar today"
+  directly. The two "New" shortcuts open the page together with its create dialog, like the `n`
+  key; reloading afterwards does not open the dialog again. Reinstall the app once if the
+  shortcuts do not appear.
+
 ### Changed
 - **A new installation creates its database in one step.** The first start used to run every
   migration since the first release one after another (284 of them, each with its own line in the

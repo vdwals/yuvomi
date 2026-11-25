@@ -536,6 +536,17 @@ app.get('/manifest.webmanifest', apiLimiter, (req, res) => {
       { src: '/icons/icon-maskable-512.png', sizes: '512x512', type: 'image/png', purpose: 'maskable' },
     ],
     screenshots: [],
+    // Langer Druck auf das installierte Symbol (Android/Chrome, Desktop-Chrome
+    // und Edge). `?new` loest nach dem Start die Primaeraktion der Seite aus
+    // (public/utils/create-deep-link.js), `?date=today` oeffnet den heutigen
+    // Tag (dayDeepLinkDate in pages/calendar.js). Ohne eigene Icons: der
+    // Browser nimmt dann das App-Symbol.
+    shortcuts: [
+      { name: 'Neuer Termin', short_name: 'Termin', url: '/calendar?new' },
+      { name: 'Einkaufsliste', short_name: 'Einkauf', url: '/shopping' },
+      { name: 'Neue Aufgabe', short_name: 'Aufgabe', url: '/tasks?new' },
+      { name: 'Kalender heute', short_name: 'Heute', url: '/calendar?date=today' },
+    ],
   });
 });
 
