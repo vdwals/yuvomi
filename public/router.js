@@ -50,6 +50,7 @@ import { buildHelpRows } from '/utils/help.js';
 import { renderSkeletonList } from '/utils/skeleton.js';
 import { wirePaletteCombobox } from '/utils/palette-combobox.js';
 import { triggerPageFab, syncFabName, fabActionLabel } from '/utils/fab.js';
+import { takeCreateDeepLink } from '/utils/create-deep-link.js';
 import { hasLeaveGuard, mayLeave } from '/utils/leave-guard.js';
 import { createUpdateFlow, isUserBusy } from '/utils/app-update.js';
 import { createStartHandoff } from '/utils/start-handoff.js';
@@ -5841,7 +5842,16 @@ if (/iPhone|iPad|iPod/.test(navigator.userAgent)) {
     await popoverReady;
     // Was die erste Navigation nicht abgeholt hat, verfaellt mit ihr: eine
     // spaetere Anmeldung faende sonst die Antwort einer frueheren Sitzung vor.
-    navigate(location.pathname, false).finally(() => startHandoff.expireStart());
+    navigate(location.pathname, false)
+      .then(() => {
+        // ANLEGE-DIREKTLINK (utils/create-deep-link.js): die Shortcuts des
+        // installierten Symbols oeffnen `/calendar?new` bzw. `/tasks?new`.
+        // Nach der ersten Navigation steht der FAB der Seite - ausgeloest wie
+        // der Kurzbefehl `n`, also nichts ohne Schreibrecht oder ohne FAB. Nur
+        // beim Start: ein Wechsel innerhalb der App traegt den Parameter nicht.
+        if (takeCreateDeepLink(location, history)) triggerPageFab();
+      })
+      .finally(() => startHandoff.expireStart());
   } catch (err) {
     console.error('[Router] Initialisierung fehlgeschlagen:', err);
     // renderError ersetzt den Inhalt von #app und nimmt den Ladebildschirm mit.

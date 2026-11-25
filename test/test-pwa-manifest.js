@@ -139,3 +139,29 @@ test('die Route wird wirklich ausgelesen', () => {
   assert.ok(Object.keys(server).length >= 10, 'die Route liefert auffaellig wenige Schluessel');
   assert.ok(server.icons.length >= 4, 'die Route fuehrt keine Icons');
 });
+
+// --------------------------------------------------------
+// Shortcuts (langer Druck auf das installierte Symbol)
+// --------------------------------------------------------
+
+test('Shortcuts: jede Adresse liegt im Scope und fuehrt auf eine bekannte Route', () => {
+  const router = fs.readFileSync(path.join(HERE, '..', 'public', 'router.js'), 'utf8');
+  const shortcuts = staticManifest.shortcuts;
+  assert.ok(Array.isArray(shortcuts) && shortcuts.length > 0, 'keine shortcuts im Manifest');
+  for (const s of shortcuts) {
+    assert.ok(s.name && s.url, `Shortcut ohne name/url: ${JSON.stringify(s)}`);
+    const url = new URL(s.url, 'https://yuvomi.invalid/');
+    assert.equal(url.origin, 'https://yuvomi.invalid', `${s.url} verlaesst die App`);
+    assert.ok(url.pathname.startsWith(staticManifest.scope), `${s.url} liegt ausserhalb des Scopes`);
+    assert.ok(router.includes(`path: '${url.pathname}'`), `${url.pathname} ist keine Route in router.js`);
+  }
+});
+
+test('Shortcuts: der Anlege-Parameter ist der, den der Router liest', async () => {
+  const { CREATE_PARAM } = await import('../public/utils/create-deep-link.js');
+  const create = staticManifest.shortcuts.filter((s) => /[?&]new\b/.test(s.url));
+  assert.ok(create.length > 0, 'kein Anlege-Shortcut');
+  for (const s of create) {
+    assert.ok(new URL(s.url, 'https://yuvomi.invalid/').searchParams.has(CREATE_PARAM), s.url);
+  }
+});

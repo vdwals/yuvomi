@@ -7,6 +7,13 @@ and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0
 
 ## [Unreleased]
 
+### Added
+- **The installed app offers shortcuts on its icon.** A long press on the home screen icon (Android,
+  desktop Chrome and Edge) opens "New event", "Shopping list", "New task" or "Calendar today"
+  directly. The two "New" shortcuts open the page together with its create dialog, like the `n`
+  key; reloading afterwards does not open the dialog again. Reinstall the app once if the
+  shortcuts do not appear.
+
 ## [2.95.0] - 2026-11-24
 
 ### Changed
