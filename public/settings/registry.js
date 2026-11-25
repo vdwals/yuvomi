@@ -444,6 +444,7 @@ export const SETTINGS_SECTIONS = freezeEntries([
     // rendert je Abschnitt einen Feed (`props.part`).
     options: [
       { key: 'settings.feedExportTitle', terms: ['ICS', 'iCal'] },
+      'settings.feedExportOnlyMine',
       'settings.feedExportShowAssignees',
       'settings.feedExportIncludeBirthdays',
     ],

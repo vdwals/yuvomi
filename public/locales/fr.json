@@ -2523,6 +2523,8 @@
         "feedExportHint": "Toute personne connaissant ce lien peut lire vos événements visibles. Ne le partagez qu'avec vos propres appareils.",
         "feedExportShowAssignees": "Afficher les personnes assignées dans le titre",
         "feedExportShowAssigneesHint": "Ajoute les membres de la famille assignés au titre de chaque événement exporté par ce flux, p. ex. « Fête à la piscine (Maman, Papa) ». Prend effet immédiatement pour les abonnements existants.",
+        "feedExportOnlyMine": "Seulement mes événements",
+        "feedExportOnlyMineHint": "L'adresse ne contient que les événements qui vous sont attribués et ceux sans attribution. Change l'adresse : abonnez-vous à nouveau ensuite.",
         "feedExportSaved": "Enregistré",
         "inventoryFeedTitle": "Exporter les échéances",
         "inventoryFeedDescription": "Abonnez-vous, en lecture seule, aux fins de garantie à venir et aux échéances que vous suivez vous-même (contrôle technique, révision, ...) depuis votre inventaire, dans Apple Calendar, Google Agenda ou Thunderbird.",

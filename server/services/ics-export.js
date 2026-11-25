@@ -320,6 +320,49 @@ function buildVEvent(
 
 const CALENDAR_FEED_PRODID = '-//Yuvomi//Calendar Feed//DE';
 
+/**
+ * Behaelt die Termine einer Person: zugewiesen oder ohne jede Zuweisung.
+ *
+ * Gefragt wird nach der Aufloesung (resolveProjectedEventRows), weil sie die
+ * Zuweisungen vererbt: eine Einzelausnahme ohne eigene Zuweisung gehoert dem
+ * Termin, dessen Zuweisung sie traegt (`assignment_owner_id`). Faellt eine
+ * Einzelausnahme heraus, bleibt ihr Platz in der Serie ein EXDATE - der Feed
+ * verknuepft nur die Ausnahmen, die er auch ausliefert (linkedSlotsByMaster).
+ *
+ * @param {any} conn
+ * @param {any[]} rows aufgeloeste Termine
+ * @param {number|null} userId null = alles behalten
+ * @returns {any[]}
+ */
+function keepOwnEvents(conn, rows, userId) {
+  if (userId == null || !rows.length) return rows;
+  const ownerOf = (/** @type {any} */ event) => Number(event.assignment_owner_id ?? event.id);
+  const ownerIds = [...new Set(rows.map(ownerOf).filter((id) => Number.isInteger(id) && id > 0))];
+  if (!ownerIds.length) return rows;
+  const ownerIdList = sqlInList(ownerIds);
+  const assigned = new Map();
+  for (const row of conn.prepare(`
+    SELECT event_id, user_id FROM event_assignments WHERE event_id IN (${ownerIdList.sql})
+  `).all(ownerIdList.param)) {
+    if (!assigned.has(row.event_id)) assigned.set(row.event_id, new Set());
+    assigned.get(row.event_id).add(Number(row.user_id));
+  }
+  return rows.filter((event) => {
+    const members = assigned.get(ownerOf(event));
+    return !members || members.has(Number(userId));
+  });
+}
+
+/**
+ * @param {any} conn
+ * @param {number} userId
+ * @param {Date} [now]
+ * @param {string} [tz]
+ * @param {{ localCalendarId?: number, calendarName?: string, showAssignees?: boolean,
+ *   scope?: string }} [options] `scope: 'mine'` keeps the token owner's own and the
+ *   unassigned events (keepOwnEvents)
+ * @returns {string}
+ */
 function buildFeed(conn, userId, now = new Date(), tz = householdTimeZone(conn), options = {}) {
   const windowStart = new Date(now.getTime() - 90 * 24 * 60 * 60 * 1000)
     .toISOString().slice(0, 10);
@@ -329,6 +372,11 @@ function buildFeed(conn, userId, now = new Date(), tz = householdTimeZone(conn),
     : '';
   const calendarFilterParams = options.localCalendarId ? [options.localCalendarId] : [];
   const calendarName = options.calendarName || 'Yuvomi';
+  // NUR MEINE TERMINE (`?scope=mine` an der Feed-Adresse): die Termine, denen
+  // der Token-Besitzer zugewiesen ist, und die ohne jede Zuweisung (sie gelten
+  // allen). Eine Option der ADRESSE, nicht der users-Zeile: dieselbe Person
+  // kann am Telefon nur ihre und am Tablet alle Termine abonnieren.
+  const onlyMine = options.scope === 'mine' && !options.localCalendarId;
 
   // Not the visibility rule of GET /api/v1/calendar: this feed only drops other
   // members' unshared ICS subscriptions (icsSubscriptionVisibleWhere() below)
@@ -391,7 +439,14 @@ function buildFeed(conn, userId, now = new Date(), tz = householdTimeZone(conn),
     }
   }
 
-  const resolvedRows = resolveProjectedEventRows(conn, rows, { lightweight: true });
+  const resolvedRows = keepOwnEvents(conn,
+    resolveProjectedEventRows(conn, rows, { lightweight: true }), onlyMine ? userId : null);
+  // Eine verschobene Einzelausnahme, deren Serie der Filter herausnimmt, steht
+  // ohne Mutter im Feed: sie geht als eigenstaendiger Termin hinaus statt mit
+  // RECURRENCE-ID auf eine UID, die der Abonnent nie bekommt.
+  const keptSeriesIds = new Set(resolvedRows
+    .filter((event) => !event.is_occurrence_override)
+    .map((event) => Number(event.id)));
   // RFC 5545 represents a reachable replacement with RECURRENCE-ID, so its
   // master must not also emit EXDATE. A child that degraded to standalone is
   // deliberately absent here: its original master slot remains excluded.
@@ -470,10 +525,12 @@ function buildFeed(conn, userId, now = new Date(), tz = householdTimeZone(conn),
   const tzYear = now.getUTCFullYear();
   for (const tzid of usedZones) out.push(...vtimezoneFor(tzid, tzYear).map(foldLine));
   for (const ev of resolvedRows) {
-    const recurrenceMaster = ev.is_occurrence_override
+    const orphaned = onlyMine && ev.is_occurrence_override && !keptSeriesIds.has(Number(ev.series_id));
+    const recurrenceMaster = ev.is_occurrence_override && !orphaned
       ? mastersById.get(Number(ev.series_id))
       : null;
-    out.push(...buildVEvent(ev, dtstamp, showAssignees, feedZone, recurrenceMaster));
+    const outbound = orphaned ? { ...ev, recurrence_rule: null } : ev;
+    out.push(...buildVEvent(outbound, dtstamp, showAssignees, feedZone, recurrenceMaster));
   }
   out.push('END:VCALENDAR');
   return out.join('\r\n') + '\r\n';

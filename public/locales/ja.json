@@ -2523,6 +2523,8 @@
         "feedExportHint": "このリンクを知っている人は誰でもあなたの表示可能な予定を読むことができます。自分のデバイスとのみ共有してください。",
         "feedExportShowAssignees": "割り当てられた人をタイトルに表示",
         "feedExportShowAssigneesHint": "このフィードが書き出すすべての予定のタイトルに、割り当てられた家族を追加します（例:「プールパーティー（ママ、パパ）」）。既存の購読にすぐ反映されます。",
+        "feedExportOnlyMine": "自分の予定のみ",
+        "feedExportOnlyMineHint": "このアドレスには、自分が割り当てられた予定と、誰にも割り当てられていない予定だけが含まれます。アドレスが変わるので、後でもう一度購読してください。",
         "feedExportSaved": "保存しました",
         "inventoryFeedTitle": "期限をエクスポート",
         "inventoryFeedDescription": "持ち物の保証終了日や自分で追加した期限（車検、点検など）を、Apple カレンダー、Google カレンダー、Thunderbird で読み取り専用として購読できます。",

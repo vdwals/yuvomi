@@ -247,6 +247,9 @@ export function settingRowHtml({
  *
  * Nimmt dieselben Optionen wie `toggleRowHtml()`, dazu `description`,
  * `descriptionId` und `extra`.
+ *
+ * @param {{ description?: string, descriptionId?: string|null, extra?: string,
+ *   rowAttrs?: Record<string, string> } & Record<string, any>} options
  */
 export function settingSwitchRowHtml({ description = '', descriptionId = null, extra = '', rowAttrs = {}, ...toggle }) {
   const attrs = { ...(toggle.attrs ?? {}) };

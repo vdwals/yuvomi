@@ -2684,6 +2684,8 @@
         "feedExportHint": "Kdokoli zná tento odkaz, může číst vaše viditelné události. Sdílejte ho pouze se svými vlastními zařízeními.",
         "feedExportShowAssignees": "Zobrazit přiřazené osoby v názvu",
         "feedExportShowAssigneesHint": "Přidá přiřazené členy rodiny do názvu každé události, kterou tento kanál exportuje, např. „Party u bazénu (Máma, Táta)“. Projeví se ihned u stávajících odběrů.",
+        "feedExportOnlyMine": "Jen moje události",
+        "feedExportOnlyMineHint": "Adresa obsahuje jen události, ke kterým jste přiřazeni, a události bez přiřazení. Mění adresu: poté se znovu přihlaste k odběru.",
         "feedExportSaved": "Uloženo",
         "inventoryFeedTitle": "Exportovat lhůty",
         "inventoryFeedDescription": "Odebírejte jen pro čtení blížící se konce záruk a vlastní sledované termíny (STK, servis, ...) ze svého inventáře v Apple Kalendáři, Kalendáři Google nebo Thunderbirdu.",

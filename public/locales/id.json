@@ -2603,6 +2603,8 @@
         "feedExportHint": "Siapa pun yang mengetahui tautan ini dapat membaca acara Anda yang terlihat. Bagikan hanya dengan perangkat Anda sendiri.",
         "feedExportShowAssignees": "Tampilkan orang yang ditugaskan di judul",
         "feedExportShowAssigneesHint": "Menambahkan anggota keluarga yang ditugaskan ke judul setiap acara yang diekspor umpan ini, mis. “Pesta kolam (Ibu, Ayah)”. Langsung berlaku untuk langganan yang ada.",
+        "feedExportOnlyMine": "Hanya acara saya",
+        "feedExportOnlyMineHint": "Alamat hanya memuat acara yang ditugaskan kepada Anda dan acara tanpa penugasan. Mengubah alamat: berlangganan lagi setelahnya.",
         "feedExportSaved": "Tersimpan",
         "inventoryFeedTitle": "Ekspor tenggat",
         "inventoryFeedDescription": "Berlangganan hanya-baca ke akhir garansi yang akan datang dan tanggal yang Anda lacak sendiri (uji kir, servis, ...) dari inventaris Anda di Apple Calendar, Google Calendar, atau Thunderbird.",

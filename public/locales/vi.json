@@ -2530,6 +2530,8 @@
         "feedExportHint": "Bất kỳ ai biết liên kết này đều có thể xem các sự kiện hiển thị của bạn. Chỉ chia sẻ với thiết bị của riêng bạn.",
         "feedExportShowAssignees": "Hiển thị người được giao trong tiêu đề",
         "feedExportShowAssigneesHint": "Thêm các thành viên gia đình được giao vào tiêu đề của mọi sự kiện mà nguồn cấp này xuất ra, ví dụ “Tiệc hồ bơi (Mẹ, Bố)”. Có hiệu lực ngay với các đăng ký hiện có.",
+        "feedExportOnlyMine": "Chỉ sự kiện của tôi",
+        "feedExportOnlyMineHint": "Địa chỉ chỉ chứa các sự kiện được giao cho bạn và các sự kiện chưa giao cho ai. Thay đổi địa chỉ: hãy đăng ký lại sau đó.",
         "feedExportSaved": "Đã lưu",
         "inventoryFeedTitle": "Xuất thời hạn",
         "inventoryFeedDescription": "Đăng ký theo dõi chỉ đọc các ngày hết bảo hành sắp tới và các mốc thời gian bạn tự theo dõi (đăng kiểm, bảo dưỡng, ...) từ tài sản của bạn trong Apple Calendar, Google Calendar hoặc Thunderbird.",

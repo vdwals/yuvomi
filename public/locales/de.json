@@ -2640,6 +2640,8 @@
         "feedExportHint": "Wer diesen Link kennt, kann deine sichtbaren Termine lesen. Teile ihn nur mit deinen eigenen Geräten.",
         "feedExportShowAssignees": "Zugewiesene Personen im Titel anzeigen",
         "feedExportShowAssigneesHint": "Ergänzt die zugewiesenen Familienmitglieder im Titel jedes Termins, den dieser Feed exportiert - z. B. „Poolparty (Mama, Papa)\". Wirkt sofort auf bestehende Abos.",
+        "feedExportOnlyMine": "Nur meine Termine",
+        "feedExportOnlyMineHint": "Die Adresse liefert nur Termine, denen du zugewiesen bist, und Termine ohne Zuweisung. Ändert die Adresse: ein bestehendes Abo danach neu abonnieren.",
         "feedExportSaved": "Gespeichert",
         "inventoryFeedTitle": "Fristen exportieren",
         "inventoryFeedDescription": "Anstehende Garantie-Enddaten und selbst angelegte Fristen (TÜV, Service, ...) aus deinem Inventar schreibgeschützt in Apple Kalender, Google Kalender oder Thunderbird abonnieren.",

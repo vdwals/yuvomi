@@ -72,7 +72,12 @@ router.get('/calendar/:token.ics', feedLimiter, validateRequest(), (/** @type {a
     ? icsExport.buildCalendarFeed(db.get(), localCalendar.id)
     : feedModuleDenied(userId, 'calendar')
       ? icsExport.buildEmptyFeed(db.get())
-      : icsExport.buildFeed(db.get(), userId);
+      // `?scope=mine` (personal-feeds.js): nur die eigenen und die
+      // unzugewiesenen Termine. Jeder andere Wert - auch eine Liste - ist der
+      // volle Feed: ein Feed antwortet nie 400, sonst verwirft die
+      // Kalender-App das Abo.
+      : icsExport.buildFeed(db.get(), userId, undefined, undefined,
+        { scope: req.query.scope === 'mine' ? 'mine' : 'all' });
   res.set('Cache-Control', 'private, no-store');
   res.set('Content-Disposition', `inline; filename="${localCalendar ? `yuvomi-${localCalendar.id}.ics` : 'yuvomi.ics'}"`);
   res.type('text/calendar; charset=utf-8').send(ics);

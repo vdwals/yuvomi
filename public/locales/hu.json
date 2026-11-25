@@ -2481,6 +2481,8 @@
         "feedExportHint": "Aki ismeri ezt a linket, elolvashatja a látható eseményeit. Csak a saját eszközeivel ossza meg.",
         "feedExportShowAssignees": "Hozzárendelt személyek megjelenítése a címben",
         "feedExportShowAssigneesHint": "Minden, a hírcsatorna által exportált esemény címéhez hozzáfűzi a hozzárendelt családtagokat, pl. „Medencés parti (Anya, Apa)”. Azonnal érvénybe lép a meglévő feliratkozásoknál.",
+        "feedExportOnlyMine": "Csak az én eseményeim",
+        "feedExportOnlyMineHint": "A cím csak azokat az eseményeket tartalmazza, amelyekhez hozzá vagy rendelve, és a hozzárendelés nélkülieket. Megváltoztatja a címet: utána iratkozz fel újra.",
         "feedExportSaved": "Mentve",
         "inventoryFeedTitle": "Határidők exportálása",
         "inventoryFeedDescription": "Iratkozzon fel csak olvasható módon a leltárában közelgő garancialejáratokra és a saját követett dátumokra (műszaki vizsga, szerviz, ...) az Apple Naptárban, a Google Naptárban vagy a Thunderbirdben.",

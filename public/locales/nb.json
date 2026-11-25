@@ -2596,6 +2596,8 @@
         "feedExportHint": "Alle som kjenner denne lenken kan lese dine synlige hendelser. Del den kun med dine egne enheter.",
         "feedExportShowAssignees": "Vis tildelte personer i tittelen",
         "feedExportShowAssigneesHint": "Legger til tildelte familiemedlemmer i tittelen på hver hendelse denne strømmen eksporterer - f.eks. «Bassengfest (Mamma, Pappa)». Trer i kraft umiddelbart for eksisterende abonnementer.",
+        "feedExportOnlyMine": "Bare mine hendelser",
+        "feedExportOnlyMineHint": "Adressen inneholder bare hendelser du er tildelt, og hendelser uten tildeling. Endrer adressen: abonner på nytt etterpå.",
         "feedExportSaved": "Lagret",
         "inventoryFeedTitle": "Eksporter frister",
         "inventoryFeedDescription": "Abonner på kommende garantedatoer og alle tilpassede sporbare datoer (Tilsyn, service, ...) fra beholdningen din i skrivebeskyttet modus i Apple Kalender, Google Kalender eller Thunderbird.",

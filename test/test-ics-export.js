@@ -778,5 +778,81 @@ test('kein Modul baut die RRULE-Zeile an der Normalisierung vorbei (#761)', () =
   assert(offenders.length === 0, 'RRULE-Zeile ohne Normalisierung:\n  ' + offenders.join('\n  '));
 });
 
+
+// --------------------------------------------------------
+// ?scope=mine: nur zugewiesene und unzugewiesene Termine
+// --------------------------------------------------------
+{
+  const d3 = openSchemaDb();
+  const me = d3.prepare(`INSERT INTO users (username,display_name,password_hash,role) VALUES ('me','Ich','x','admin')`).run().lastInsertRowid;
+  const other = d3.prepare(`INSERT INTO users (username,display_name,password_hash) VALUES ('other','Andere','x')`).run().lastInsertRowid;
+  const addEvent = (title, start, extra = {}) => d3.prepare(`
+    INSERT INTO calendar_events
+      (title,start_datetime,end_datetime,all_day,external_source,recurrence_rule,visibility,created_by,
+       recurrence_parent_id,recurrence_id,overridden_fields)
+    VALUES (?,?,?,0,'local',?,'all',?,?,?,?)
+  `).run(title, start, start.replace('T09', 'T10'), extra.rrule ?? null, me,
+    extra.parent ?? null, extra.recurrenceId ?? null,
+    extra.fields ? JSON.stringify(extra.fields) : null).lastInsertRowid;
+  const assign = (eventId, ...users) => users.forEach((u) =>
+    d3.prepare('INSERT INTO event_assignments (event_id,user_id) VALUES (?,?)').run(eventId, u));
+
+  assign(addEvent('MineSolo', '2026-07-01T09:00'), me);
+  assign(addEvent('MineOtherOnly', '2026-07-02T09:00'), other);
+  assign(addEvent('MineBoth', '2026-07-03T09:00'), me, other);
+  addEvent('MineNobody', '2026-07-04T09:00');
+
+  // Serie der anderen Person, eine Ausnahme mit eigener Zuweisung an mich.
+  const otherSeries = addEvent('MineOtherSeries', '2026-08-01T09:00', { rrule: 'FREQ=DAILY;COUNT=3' });
+  assign(otherSeries, other);
+  const myChild = addEvent('MineChildOfOther', '2026-08-02T09:00', {
+    parent: otherSeries, recurrenceId: '2026-08-02', fields: ['title', 'assignments'],
+  });
+  assign(myChild, me);
+  d3.prepare(`INSERT INTO calendar_event_exceptions (event_id,exception_date) VALUES (?, '2026-08-02')`).run(otherSeries);
+
+  // Meine Serie, eine Ausnahme an die andere Person abgegeben.
+  const mySeries = addEvent('MineOwnSeries', '2026-09-01T09:00', { rrule: 'FREQ=DAILY;COUNT=3' });
+  assign(mySeries, me);
+  const handedOff = addEvent('MineHandedOff', '2026-09-02T09:00', {
+    parent: mySeries, recurrenceId: '2026-09-02', fields: ['title', 'assignments'],
+  });
+  assign(handedOff, other);
+  d3.prepare(`INSERT INTO calendar_event_exceptions (event_id,exception_date) VALUES (?, '2026-09-02')`).run(mySeries);
+
+  const all = buildFeed(d3, me, NOW, FEED_TZ);
+  const mine = buildFeed(d3, me, NOW, FEED_TZ, { scope: 'mine' });
+
+  test('scope=mine: eigene, gemeinsame und unzugewiesene Termine bleiben, fremde gehen', () => {
+    for (const title of ['MineSolo', 'MineBoth', 'MineNobody', 'MineOwnSeries', 'MineChildOfOther']) {
+      assert(mine.includes(`SUMMARY:${title}\r\n`), `${title} fehlt im Feed "nur meine"`);
+    }
+    for (const title of ['MineOtherOnly', 'MineOtherSeries', 'MineHandedOff']) {
+      assert(!mine.includes(`SUMMARY:${title}\r\n`), `${title} gehoert nicht in "nur meine"`);
+    }
+  });
+
+  test('ohne scope (und mit scope=all) bleibt der Feed vollstaendig', () => {
+    for (const title of ['MineSolo', 'MineOtherOnly', 'MineBoth', 'MineNobody', 'MineOtherSeries', 'MineHandedOff']) {
+      assert(all.includes(`SUMMARY:${title}\r\n`), `${title} fehlt im ungefilterten Feed`);
+    }
+    assert(buildFeed(d3, me, NOW, FEED_TZ, { scope: 'all' }) === all, 'scope=all weicht vom Standard ab');
+  });
+
+  test('scope=mine: abgegebene Ausnahme bleibt EXDATE der eigenen Serie', () => {
+    const series = eventBlock(mine, 'MineOwnSeries');
+    assert(series, 'Serie fehlt');
+    assert(/EXDATE[^\r\n]*20260902/.test(series), 'der abgegebene Tag muss als EXDATE ausfallen:\n' + series);
+  });
+
+  test('scope=mine: Ausnahme ohne mitgelieferte Serie geht eigenstaendig hinaus', () => {
+    const child = eventBlock(mine, 'MineChildOfOther');
+    assert(child, 'Ausnahme fehlt');
+    assert(!child.includes('RECURRENCE-ID'), 'ohne Serie im Feed keine RECURRENCE-ID:\n' + child);
+    assert(!child.includes('RRULE'), 'die Ausnahme darf keine Serie werden:\n' + child);
+    assert(child.includes(`UID:event-${myChild}@yuvomi`), 'eigene UID erwartet:\n' + child);
+  });
+}
+
 console.log(`\n${passed} passed, ${failed} failed\n`);
 if (failed > 0) process.exit(1);

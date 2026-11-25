@@ -2603,6 +2603,8 @@
         "feedExportHint": "이 링크를 아는 사람은 표시된 일정을 볼 수 있습니다. 본인 기기와만 공유하세요.",
         "feedExportShowAssignees": "제목에 지정된 사람 표시",
         "feedExportShowAssigneesHint": "이 피드가 내보내는 모든 일정 제목에 지정된 가족 구성원을 추가합니다. 예: “수영장 파티 (엄마, 아빠)”. 기존 구독에 즉시 적용됩니다.",
+        "feedExportOnlyMine": "내 일정만",
+        "feedExportOnlyMineHint": "주소에는 나에게 배정된 일정과 배정되지 않은 일정만 포함됩니다. 주소가 바뀌므로 이후 다시 구독하세요.",
         "feedExportSaved": "저장됨",
         "inventoryFeedTitle": "기한 내보내기",
         "inventoryFeedDescription": "소지품의 다가오는 보증 만료일과 직접 추가한 기한(검사, 정비 등)을 Apple 캘린더, Google 캘린더 또는 Thunderbird에서 읽기 전용으로 구독하세요.",

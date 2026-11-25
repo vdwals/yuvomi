@@ -2640,6 +2640,8 @@
         "feedExportHint": "Mababasa ng sinumang nakakaalam ng link na ito ang iyong mga nakikitang kaganapan. Ibahagi lamang ito sa sarili mong mga device.",
         "feedExportShowAssignees": "Ipakita sa pamagat ang mga taong naatasan",
         "feedExportShowAssigneesHint": "Idinaragdag ang mga naatasang miyembro ng pamilya sa pamagat ng bawat kaganapang ini-export ng feed na ito - hal. \"Pool party (Nanay, Tatay)\". Agad na naiiral para sa mga umiiral na subscription.",
+        "feedExportOnlyMine": "Mga event ko lang",
+        "feedExportOnlyMineHint": "Ang address ay naglalaman lamang ng mga event na nakatalaga sa iyo at mga event na walang nakatalaga. Binabago nito ang address: mag-subscribe muli pagkatapos.",
         "feedExportSaved": "Na-save",
         "inventoryFeedTitle": "I-export ang mga takdang petsa",
         "inventoryFeedDescription": "Mag-subscribe nang read-only sa mga paparating na pagtatapos ng warranty at sa mga sarili mong sinusubaybayang petsa (inspeksyon, serbisyo, ...) mula sa imbentaryo mo sa Apple Calendar, Google Calendar, o Thunderbird.",
